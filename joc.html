@@ -1,0 +1,173 @@
+<html >
+<head>
+<link rel="stylesheet" href="CSS/stil.css">
+<meta http-equiv="cache-control" content="max-age=0" />
+<meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="expires" content="0" />
+<meta http-equiv="expires" content="Tue, 01 Jan 1990 12:00:00 GMT" />
+</head>
+
+
+
+
+<body tabindex="0" onload="" id="b" onresize="schimba()">
+
+<canvas width="1024" height="768" id="ctx"tabindex="0" ></canvas>
+
+
+
+<div id="meniuStart"class="meniuStart">
+	<div id="start" onclick='schimbaGS(1);
+        document.getElementById("meniuStart").style.display="none";
+        document.getElementById("overlay").style.display="flex";'>START</div>
+</div>
+
+
+
+<div id="overlay"class="overlay">
+	<div id="pauza" onclick="schimbaGS(3)" class="butonPauza">|  |</div>
+	<div id="full" class="fullScreen" onclick="fullScreen()">|  |</div>
+
+
+	<div class="containerOverlay">
+		<div class="cutie">
+			<span id="cutieCooldown"></span>
+
+		</div>
+		<div class="fireball">
+			<span id="fireballCooldown"></span>
+		</div>
+		<div class="teleport">
+			<span id="teleportCooldown"></span>
+		</div>
+	</div>
+
+	<div  class="Health"></div>
+	<div  class="health">
+		
+		<div id="health"></div>
+	</div>
+	<div id="viata" class="Healthh">100/100</div>
+
+
+</div>
+
+<div id="meniuPauza"class="meniuDeath">
+	<div id="resume" onclick='schimbaGS(1);
+        document.getElementById("meniuPauza").style.display="none";
+        document.getElementById("overlay").style.display="flex";' class="restart">RESUME</div>
+	<div id="restart" onclick='restart();
+        document.getElementById("meniuDeath").style.display="none";
+        document.getElementById("overlay").style.display="flex";
+        document.getElementById("meniuPauza").style.display="none";' class="restart">RESTART</div>
+</div>
+
+
+<div id="meniuDeath"class="meniuDeath">
+	<div id="restart" onclick='restart();
+        document.getElementById("meniuDeath").style.display="none";
+        document.getElementById("overlay").style.display="flex";' class="restart">RESTART</div>
+</div>
+
+
+<output id="out"></output>
+
+
+
+
+<script>
+//variabile
+var h,w,HEIGHT,WIDTH,stanga=false,dreapta=false,sus=false,jos=false,schimbaa=true,stangaK=true,dreaptaK=true,josK=true,susK=true,nr=0,cx=0,cy=0,colidee=0,gameState=0,count=0,HEALTH=100;
+var posX=0,posY=0;
+var ctx=document.getElementById("ctx").getContext("2d");
+var img = {};
+
+
+
+  img.player=new Image();
+  img.player.src="Imagini/player.png";
+  img.wall=new Image();
+  img.wall.src="Imagini/wall.png";
+
+  img.firebal=new Image();
+  img.firebal.src="Imagini/Firebal.png";
+  img.boom1=new Image();
+  img.boom1.src="Imagini/BOOM_1.png";  
+  img.boom2=new Image();
+  img.boom2.src="Imagini/BOOM_2.png"; 
+  img.boom3=new Image();
+  img.boom3.src="Imagini/BOOM_3.png"; 
+  img.boom4=new Image();
+  img.boom4.src="Imagini/BOOM_4.png"; 
+  img.boom5=new Image();
+  img.boom5.src="Imagini/BOOM_5.png";
+  img.cutie=new Image();
+  img.cutie.src="Imagini/cutie.png";
+  img.brickTile=new Image();
+  img.brickTile.src="Imagini/brickTile.png";
+  img.enemy1=new Image();
+  img.enemy1.src="Imagini/enemy1.png";
+
+  img.gameBackground=new Image();
+  img.gameBackground.src="Imagini/gameBackground.png";
+</script>
+<script src="Scripts/enemy.js"></script>
+<script src="Scripts/resizeCanvas.js"></script>
+<script src="Scripts/onMouseMove.js"></script>
+<script src="Scripts/meniu.js"></script>
+<script src="Scripts/player.js"></script>
+<script src="Scripts/particule.js"></script>
+<script src="Scripts/entitati.js"></script>
+<script src="Scripts/coliziuni.js"></script>
+<script src="Scripts/tastatura.js"></script>
+<script src="Scripts/altele.js"></script>
+<script src="Scripts/mapa.js"></script>
+<script src="Scripts/onClick.js"></script>
+<script src="Scripts/updateaza.js"></script>
+<script src="Scripts/deseneaza.js"></script>
+<script>
+var run = (function() {
+  var loops = 0, skipTicks = 1000 / 60,
+      maxFrameSkip = 10,
+      nextGameTick = (new Date).getTime();
+  
+  return function() {
+    loops = 0;
+    
+    while ((new Date).getTime() > nextGameTick && loops < maxFrameSkip) {
+      updateaza();
+      nextGameTick += skipTicks;
+      loops++;
+    }
+    
+    deseneaza();
+  };
+})();
+
+(function() {
+  var onEachFrame;
+  if (window.requestAnimationFrame) {
+    onEachFrame = function(cb) {
+      var _cb = function() { cb();requestAnimationFrame(_cb); }
+      _cb();
+    };
+  } else if (window.mozRequestAnimationFrame) {
+    onEachFrame = function(cb) {
+      var _cb = function() { cb(); mozRequestAnimationFrame(_cb); }
+      _cb();
+    };
+  } else {
+    onEachFrame = function(cb) {
+      setInterval(cb, 1000 / 60);
+    }
+  }
+  
+  window.onEachFrame = onEachFrame;
+})();
+
+window.onEachFrame(run);
+</script>
+<script src="Scripts/fps.js"></script>
+<script src="Scripts/fullScreen.js"></script>
+</body>
+</html>
